@@ -6,7 +6,7 @@ public class Softmax implements ActivationFunction {
         // Number of distinct classes in output
         int classCount = input.getCols();
         Matrix result = new Matrix(1, classCount);
-        double exponentialSum = 0; // Sum of expotential of each value
+        double exponentialSum = 0; // Sum of exponential of each value
         for (int j = 0; j < classCount; j++) {
             exponentialSum += Math.exp(input.getElement(0, j));
         }

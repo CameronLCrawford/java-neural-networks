@@ -19,10 +19,17 @@ public class Iris {
     private static final ArrayList<Integer> networkTopology = new ArrayList<>(
             List.of(4, 5, 5, 3)
     );
+    private static final ArrayList<ActivationFunction> networkActivations = new ArrayList<> (
+            List.of(
+                    new Sigmoid(),
+                    new Sigmoid(),
+                    new Softmax()
+            )
+    );
     private static final int trainingIterations = 5000; // Number of epochs
 
     public static void main(String[] args) {
-        network = new NeuralNetwork(networkTopology);
+        network = new NeuralNetwork(networkTopology, networkActivations, 0.01);
         loadData("resources/iris.data");
         train();
         test();
@@ -108,7 +115,6 @@ public class Iris {
         for (int inputIndex = 0; inputIndex < 3 * (50 - trainSize); inputIndex++) {
             network.feedForward(testData.get(inputIndex));
             Matrix networkOutput = network.getOutput();
-            System.out.println(networkOutput);
             Matrix trueValue = testOutput.get(inputIndex);
             // Add square of difference between true and predicted values
             for (int i = 0; i < 3; i++) {

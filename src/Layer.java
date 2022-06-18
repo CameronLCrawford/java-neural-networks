@@ -10,10 +10,10 @@ public class Layer {
     private Matrix inputNodes; // Input nodes to the current layer
     private Matrix outputNodes; // Output nodes of the current layer
     private final ArrayList<Double> newErrorTerms; // Error terms for preceding layer
-    private ActivationFunction activationFunction; // Activation function for this layer
-    private final double learningRate = 0.01; // Small constant to scale down weight delta
+    private final ActivationFunction activationFunction; // Activation function for this layer
+    private final double learningRate; // Small constant to scale down weight delta
 
-    public Layer(int inputDims, int outputDims, ActivationFunction activationFunction) {
+    public Layer(int inputDims, int outputDims, ActivationFunction activationFunction, double learningRate) {
         // Initialise weights and sets them to be uniformly distributed in range [-1,1]
         weights = new Matrix(inputDims, outputDims);
         Random random = new Random(0);
@@ -39,6 +39,9 @@ public class Layer {
 
         // Set activation function
         this.activationFunction = activationFunction;
+
+        // Set learning rate (alpha)
+        this.learningRate = learningRate;
     }
 
     public void feedForward(Matrix input) {

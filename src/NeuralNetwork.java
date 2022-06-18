@@ -4,17 +4,17 @@ public class NeuralNetwork {
 
     private final ArrayList<Layer> network;
 
-    NeuralNetwork(ArrayList<Integer> layerSizes) {
+    NeuralNetwork(ArrayList<Integer> layerSizes, ArrayList<ActivationFunction> layerActivations, double learningRate) {
+        if (layerActivations.size() != layerSizes.size() - 1)
+            throw new IllegalArgumentException("Number of activation functions must be 1 less than number of layers");
         network = new ArrayList<>();
         /* Create fully connected network in which the size of the output of one
         layer is the size of the input to the next */
         for (int layer = 0; layer < layerSizes.size() - 1; layer++) {
-            ActivationFunction activationFunction;
-            if (layer == layerSizes.size() - 2)
-                activationFunction = new Softmax(); // Final layer has softmax activation
-            else
-                activationFunction = new Sigmoid(); // Every other layer has sigmoid activation
-            network.add(new Layer(layerSizes.get(layer), layerSizes.get(layer + 1), activationFunction));
+            ActivationFunction activationFunction = layerActivations.get(layer);
+            network.add(
+                    new Layer(layerSizes.get(layer), layerSizes.get(layer + 1), activationFunction, learningRate)
+            );
         }
     }
 
