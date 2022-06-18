@@ -1,12 +1,12 @@
-public class Sigmoid implements ActivationFunction {
+public class Tanh implements ActivationFunction{
 
-    // Applies sigmoid function to each element of input
+    // Applies tanh (hyperbolic tangent) function to every element in input
     @Override
     public Matrix function(Matrix input) {
         Matrix result = new Matrix(1, input.getCols());
         for (int element = 0; element < input.getCols(); element++) {
             double x = input.getElement(0, element);
-            double transformedX = 1 / (1 + Math.exp(-x)); // Sigmoid function
+            double transformedX = Math.tanh(x); // Tanh function
             result.setElement(transformedX, 0, element);
         }
         return result;
@@ -14,6 +14,6 @@ public class Sigmoid implements ActivationFunction {
 
     @Override
     public double derivative(double x) {
-        return x * (1 - x);
+        return 1 - x * x;
     }
 }

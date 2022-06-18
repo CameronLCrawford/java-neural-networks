@@ -2,8 +2,8 @@
 public interface ActivationFunction {
 
     // The activation function
-    public double function(double x);
+    Matrix function(Matrix x);
 
     // The derivation of the activation function
-    public double derivative(double x);
+    double derivative(double x);
 }

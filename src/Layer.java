@@ -45,7 +45,7 @@ public class Layer {
         inputNodes = input;
         outputNodes = inputNodes.cartProd(weights);
         outputNodes = outputNodes.sum(biases); // Apply bias
-        activation(outputNodes);
+        outputNodes = activationFunction.function(outputNodes);
     }
 
     // Performs the backpropagation algorithm and returns the error terms on each node in this layer
@@ -84,16 +84,6 @@ public class Layer {
                 weightDeltas.setElement(0.0, row, col);
                 biasDeltas.setElement(0.0, 0, col);
             }
-        }
-    }
-
-    // Apply activation function to every node in a given layer
-    private void activation(Matrix layer) {
-        for (int element = 0; element < layer.getCols(); element++) {
-            double preActivation = layer.getElement(0, element);
-            // Apply activation function to node value
-            double postActivation = activationFunction.function(preActivation);
-            layer.setElement(postActivation, 0, element);
         }
     }
 
