@@ -9,7 +9,8 @@ public class NeuralNetwork {
         /* Create fully connected network in which the size of the output of one
         layer is the size of the input to the next */
         for (int layer = 0; layer < layerSizes.size() - 1; layer++) {
-            network.add(new Layer(layerSizes.get(layer), layerSizes.get(layer + 1)));
+            ActivationFunction activationFunction = new Sigmoid(); // Every layer has sigmoid activation
+            network.add(new Layer(layerSizes.get(layer), layerSizes.get(layer + 1), activationFunction));
         }
     }
 

@@ -10,9 +10,10 @@ public class Layer {
     private Matrix inputNodes; // Input nodes to the current layer
     private Matrix outputNodes; // Output nodes of the current layer
     private final ArrayList<Double> newErrorTerms; // Error terms for preceding layer
+    private ActivationFunction activationFunction; // Activation function for this layer
     private final double learningRate = 0.01; // Small constant to scale down weight delta
 
-    public Layer(int inputDims, int outputDims) {
+    public Layer(int inputDims, int outputDims, ActivationFunction activationFunction) {
         // Initialise weights and sets them to be uniformly distributed in range [-1,1]
         weights = new Matrix(inputDims, outputDims);
         Random random = new Random(0);
@@ -35,6 +36,9 @@ public class Layer {
         // Initialise preceding error values to 0
         newErrorTerms = new ArrayList<>();
         for (int i = 0; i < inputDims; i++) newErrorTerms.add(0.0);
+
+        // Set activation function
+        this.activationFunction = activationFunction;
     }
 
     public void feedForward(Matrix input) {
@@ -56,7 +60,7 @@ public class Layer {
                 double currentWeight = weights.getElement(row, column);
                 // Output of the succeeding node
                 double nodeOutput = outputNodes.getElement(0, column);
-                double errorTerm = errorTerms.get(column) * sigmoidPrime(nodeOutput);
+                double errorTerm = errorTerms.get(column) * activationFunction.derivative(nodeOutput);
                 // Update node error
                 newErrorTerms.set(row, newErrorTerms.get(row) + errorTerm * currentWeight);
                 // Calculate and update weight delta
@@ -87,7 +91,8 @@ public class Layer {
     private void activation(Matrix layer) {
         for (int element = 0; element < layer.getCols(); element++) {
             double preActivation = layer.getElement(0, element);
-            double postActivation = sigmoid(preActivation);
+            // Apply activation function to node value
+            double postActivation = activationFunction.function(preActivation);
             layer.setElement(postActivation, 0, element);
         }
     }
@@ -105,15 +110,5 @@ public class Layer {
             newErrorTerms.set(i, 0.0);
         }
         return errorTerms;
-    }
-
-    // Activation function
-    private double sigmoid(double x) {
-        return 1 / (1 + Math.exp(-x));
-    }
-
-    // Derivative of activation function
-    private double sigmoidPrime(double x) {
-        return x * (1 - x);
     }
 }
