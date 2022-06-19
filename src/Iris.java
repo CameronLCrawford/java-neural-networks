@@ -17,11 +17,12 @@ public class Iris {
     /* Dictates the number of nodes in each layer of the network (controls depth and
     breadth on a layer by layer basis */
     private static final ArrayList<Integer> networkTopology = new ArrayList<>(
-            List.of(4, 5, 5, 3)
+            List.of(4, 5, 5, 5, 3)
     );
     private static final ArrayList<ActivationFunction> networkActivations = new ArrayList<> (
             List.of(
                     new Sigmoid(),
+                    new Tanh(),
                     new Sigmoid(),
                     new Softmax()
             )

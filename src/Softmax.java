@@ -12,8 +12,8 @@ public class Softmax implements ActivationFunction {
         }
         for (int element = 0; element < classCount; element++) {
             double x = input.getElement(0, element);
-            double tranformedX = Math.exp(x) / exponentialSum;
-            result.setElement(tranformedX, 0, element);
+            double transformedX = Math.exp(x) / exponentialSum;
+            result.setElement(transformedX, 0, element);
         }
         return result;
     }

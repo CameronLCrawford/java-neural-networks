@@ -14,6 +14,6 @@ public class Tanh implements ActivationFunction{
 
     @Override
     public double derivative(double x) {
-        return 1 - x * x;
+        return (1 / Math.cosh(x)) * (1 / Math.cosh(x));
     }
 }
